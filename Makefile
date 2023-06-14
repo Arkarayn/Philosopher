@@ -12,7 +12,7 @@ SRCS_DIR = srcs/
 
 OBJ_DIR = obj/
 
-SRCS_FILES = main.c error_handling.c
+SRCS_FILES = main.c error_handling.c init.c utils.c philo.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 

@@ -11,6 +11,6 @@ int err(int error)
     else if(error == 4)
         printf("Error: invalid number of arguments\n");
     else if(error == 5)
-        printf("Error: invalid argument\n");
+        printf("Error: invalid thread creation\n");
     return(-1);
 }
