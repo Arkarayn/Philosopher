@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmattei <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/15 17:06:00 by gmattei           #+#    #+#             */
+/*   Updated: 2023/06/15 17:06:01 by gmattei          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/philo.h"
 
 int	ft_strcmp(char *s1, char *s2)
@@ -10,8 +22,9 @@ int	ft_strcmp(char *s1, char *s2)
 	return ((*(unsigned char *)s1 - *(unsigned char *)s2));
 }
 
-void print(int timestamp, int k, char *c)
+void print(t_main *main, int timestamp, int k, char *c)
 {
+    pthread_mutex_lock(&main->print);
     if(ft_strcmp(c, "fork"))
         printf("%d -  philo n.%d has taken a fork", timestamp, k);
     if(ft_strcmp(c, "eat"))
@@ -22,6 +35,7 @@ void print(int timestamp, int k, char *c)
         printf("%d -  philo n.%d is thinking", timestamp, k);
     if(ft_strcmp(c, "die"))
         printf("%d -  philo n.%d died", timestamp, k);
+    pthread_mutex_unlock(&main->print);
 }
 
 int ctm_atoi(t_main *main, char *str)

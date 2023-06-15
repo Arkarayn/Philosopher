@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmattei <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/15 17:06:21 by gmattei           #+#    #+#             */
+/*   Updated: 2023/06/15 17:06:23 by gmattei          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -29,7 +41,10 @@ typedef struct s_main
     int tsleep; // time to sleep
     int mtodo; // number of meals to do
     int i; // counter
+    bool all_ate; // all ate or not
+    int stop; // stop or not
     long long first_timestamp;
+    pthread_mutex_t		print;
 	pthread_mutex_t		*forks;
 }   t_main;
 
@@ -38,12 +53,12 @@ typedef struct s_main
 int     err(int error);
     //Utils
 int     ctm_atoi(t_main *main, char *str);
-void    print(int timestamp, int k, char *c);
+void    print(t_main *main, int timestamp, int k, char *c);
 int     get_time(t_main *main, bool firstime);
     //Init
 int     init(t_main *main, char **argv);
 int     init_philo(t_main *main);
     //Philo
-void    philo(t_main *main);
+int     philo(t_main *main);
 
 #endif

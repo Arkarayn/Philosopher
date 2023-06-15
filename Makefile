@@ -4,7 +4,7 @@ RM_DIR = rm -rf
 
 CC = clang
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -pthread
 
 HEADER_1 = headers/philo.h
 

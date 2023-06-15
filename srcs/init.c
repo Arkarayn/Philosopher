@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmattei <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/15 17:05:46 by gmattei           #+#    #+#             */
+/*   Updated: 2023/06/15 17:05:48 by gmattei          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/philo.h"
 
 int init_philo(t_main *main)
@@ -13,9 +25,11 @@ int init_philo(t_main *main)
             main->phils[main->i].left_fork_id = 1;
         else
             main->phils[main->i].left_fork_id = main->i + 1;
+        main->phils[main->i].right_fork_id = main->i;
+        if (pthread_mutex_init(&(main->print), NULL))
+		return (1);
         if(pthread_mutex_init(&main->forks[main->i], NULL))
             return(-1);
-        main->phils[main->i].right_fork_id = main->i;
         main->i--;
     }
     return(0);
@@ -29,6 +43,7 @@ int init(t_main *main, char **argv)
     main->tdie = ctm_atoi(main, argv[2]);
     main->teat = ctm_atoi(main, argv[3]);
     main->tsleep = ctm_atoi(main, argv[4]);
+    main->stop = false;
     if(main->num < 2 || main->tdie < 0 || main->teat < 0 || main->tsleep < 0)
         return(err(2));
     if(argv[5])
