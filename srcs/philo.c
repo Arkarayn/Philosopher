@@ -112,6 +112,7 @@ int philo(t_main *main)
     main->first_timestamp = get_time(main, true);
     while(main->i < main->num)
     {
+        printf("philo %d\n", main->i);
         if(pthread_create(&main->phils[main->i].thread_id, NULL, philo_routine, &main->phils[main->i]))
             return(err(5));
         main->phils[main->i].last_meal = get_time(main, false);

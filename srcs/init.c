@@ -17,6 +17,7 @@ int init_philo(t_main *main)
     main->i = main->num;
     while(main->i > 0)
     {
+        main->phils[main->i].thread_id = (pthread_t)malloc(sizeof(pthread_t));
         main->phils[main->i].id = main->i;
         main->phils[main->i].meals = 0;
         main->phils[main->i].ate = false;
@@ -37,9 +38,9 @@ int init_philo(t_main *main)
 
 int init(t_main *main, char **argv)
 {
-    main->phils = malloc(sizeof(t_phils) * main->num);
-    main->forks = malloc(sizeof(pthread_mutex_t) * main->num);
     main->num = ctm_atoi(main, argv[1]);
+    main->phils = (t_phils *)malloc(sizeof(t_phils) * main->num);
+    main->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * main->num);
     main->tdie = ctm_atoi(main, argv[2]);
     main->teat = ctm_atoi(main, argv[3]);
     main->tsleep = ctm_atoi(main, argv[4]);
