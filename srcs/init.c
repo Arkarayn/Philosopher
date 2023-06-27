@@ -14,23 +14,25 @@
 
 int init_philo(t_main *main)
 {
-    main->i = main->num;
-    while(main->i > 0)
+    main->i = main->num - 1;
+    while(main->i >= 0)
     {
-        main->phils[main->i].thread_id = (pthread_t)malloc(sizeof(pthread_t));
-        main->phils[main->i].id = main->i;
+        main->phils[main->i].id = main->i + 1;
         main->phils[main->i].meals = 0;
         main->phils[main->i].ate = false;
         main->phils[main->i].last_meal = 0;
-        if(main->i == main->num)
-            main->phils[main->i].left_fork_id = 1;
+        if(main->i == main->num - 1)
+            main->phils[main->i].left_fork_id = 0;
         else
             main->phils[main->i].left_fork_id = main->i + 1;
         main->phils[main->i].right_fork_id = main->i;
+        if (pthread_mutex_init(&(main->meal), NULL))
+		    return (1);
         if (pthread_mutex_init(&(main->print), NULL))
-		return (1);
+		    return (1);
         if(pthread_mutex_init(&main->forks[main->i], NULL))
             return(-1);
+        main->phils[main->i].main = main;
         main->i--;
     }
     return(0);
@@ -45,7 +47,7 @@ int init(t_main *main, char **argv)
     main->teat = ctm_atoi(main, argv[3]);
     main->tsleep = ctm_atoi(main, argv[4]);
     main->stop = false;
-    if(main->num < 2 || main->tdie < 0 || main->teat < 0 || main->tsleep < 0)
+    if(main->num < 1 || main->tdie < 0 || main->teat < 0 || main->tsleep < 0)
         return(err(2));
     if(argv[5])
     {

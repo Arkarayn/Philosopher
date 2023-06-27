@@ -21,6 +21,8 @@
 # include <assert.h>
 # include <pthread.h>
 
+struct s_main;
+
 typedef struct s_phils
 {
     int id; // id of the philosophers
@@ -30,6 +32,7 @@ typedef struct s_phils
     int left_fork_id; // left fork id
     int right_fork_id; // right fork id
     pthread_t thread_id; // thread id
+    struct s_main *main; // main struct
 }   t_phils;
 
 typedef struct s_main
@@ -42,8 +45,9 @@ typedef struct s_main
     int mtodo; // number of meals to do
     int i; // counter
     bool all_ate; // all ate or not
-    int stop; // stop or not
+    bool stop; // stop or not
     long long first_timestamp;
+    pthread_mutex_t		meal;
     pthread_mutex_t		print;
 	pthread_mutex_t		*forks;
 }   t_main;

@@ -24,17 +24,21 @@ int	ft_strcmp(char *s1, char *s2)
 
 void print(t_main *main, int timestamp, int k, char *c)
 {
+    if(main->stop)
+        return;
     pthread_mutex_lock(&main->print);
-    if(ft_strcmp(c, "fork"))
-        printf("%d -  philo n.%d has taken a fork", timestamp, k);
-    if(ft_strcmp(c, "eat"))
-        printf("%d -  philo n.%d is eating", timestamp, k);
-    if(ft_strcmp(c, "sleep"))
-        printf("%d -  philo n.%d is sleeping", timestamp, k);
-    if(ft_strcmp(c, "think"))
-        printf("%d -  philo n.%d is thinking", timestamp, k);
-    if(ft_strcmp(c, "die"))
-        printf("%d -  philo n.%d died", timestamp, k);
+    if(main->num == 1)
+        k++;
+    if(!ft_strcmp(c, "fork"))
+        printf("%d -  philo n.%d has taken a fork\n", timestamp, k);
+    else if(!ft_strcmp(c, "eat"))
+        printf("%d -  philo n.%d is eating\n", timestamp, k);
+    else if(!ft_strcmp(c, "sleep"))
+        printf("%d -  philo n.%d is sleeping\n", timestamp, k);
+    else if(!ft_strcmp(c, "think"))
+        printf("%d -  philo n.%d is thinking\n", timestamp, k);
+    else if(!ft_strcmp(c, "die"))
+        printf("%d -  philo n.%d died\n", timestamp, k);
     pthread_mutex_unlock(&main->print);
 }
 
@@ -69,7 +73,7 @@ int get_time(t_main *main, bool firstime)
 
     gettimeofday(&t, NULL);
     if(firstime == true )
-        return(main->first_timestamp = t.tv_usec);
+        return(main->first_timestamp = t.tv_sec * 1000 + t.tv_usec / 1000);
     else
-        return(t.tv_usec - main->first_timestamp);
+        return(t.tv_sec * 1000 + t.tv_usec / 1000 - main->first_timestamp);
 }
