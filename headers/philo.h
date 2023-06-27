@@ -16,53 +16,52 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include <sys/time.h> 
+# include <sys/time.h>
 # include <stdio.h>
 # include <assert.h>
 # include <pthread.h>
 
-struct s_main;
+struct	s_main;
 
 typedef struct s_phils
 {
-    int id; // id of the philosophers
-    int meals; //meals done
-    bool ate; // ate or not
-    long long last_meal; // last meal timestamp
-    int left_fork_id; // left fork id
-    int right_fork_id; // right fork id
-    pthread_t thread_id; // thread id
-    struct s_main *main; // main struct
-}   t_phils;
+	int				id;
+	int				meals;
+	bool			ate;
+	long long		last_meal;
+	int				left_fork_id;
+	int				right_fork_id;
+	pthread_t		thread_id;
+	struct s_main	*main;
+}	t_phils;
 
 typedef struct s_main
 {
-    t_phils *phils;
-    int num; // number of philosophers
-    int tdie; // time to die
-    int teat; // time to eat
-    int tsleep; // time to sleep
-    int mtodo; // number of meals to do
-    int i; // counter
-    bool all_ate; // all ate or not
-    bool stop; // stop or not
-    long long first_timestamp;
-    pthread_mutex_t		meal;
-    pthread_mutex_t		print;
-	pthread_mutex_t		*forks;
-}   t_main;
-
-//Functions
-    //Error Managament
-int     err(int error);
-    //Utils
-int     ctm_atoi(t_main *main, char *str);
-void    print(t_main *main, int timestamp, int k, char *c);
-int     get_time(t_main *main, bool firstime);
-    //Init
-int     init(t_main *main, char **argv);
-int     init_philo(t_main *main);
-    //Philo
-int     philo(t_main *main);
+	t_phils			*phils;
+	int				num;
+	int				tdie;
+	int				teat;
+	int				tsleep;
+	int				mtodo;
+	int				i;
+	bool			all_ate;
+	bool			stop;
+	long long		first_timestamp;
+	pthread_mutex_t	meal;
+	pthread_mutex_t	print;
+	pthread_mutex_t	*forks;
+}	t_main;
+/* Functions */
+/* Error Managament */
+int		err(int error);
+/* Utils */
+void	print(t_main *main, int timestamp, int k, char *c);
+int		ctm_atoi(t_main *main, char *str);
+int		get_time(t_main *main, bool firstime);
+/* Init */
+int		init(t_main *main, char **argv);
+int		init_philo(t_main *main);
+/* Philo */
+int		philo(t_main *main);
 
 #endif

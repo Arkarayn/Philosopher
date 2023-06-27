@@ -22,58 +22,58 @@ int	ft_strcmp(char *s1, char *s2)
 	return ((*(unsigned char *)s1 - *(unsigned char *)s2));
 }
 
-void print(t_main *main, int timestamp, int k, char *c)
+void	print(t_main *main, int timestamp, int k, char *c)
 {
-    if(main->stop)
-        return;
-    pthread_mutex_lock(&main->print);
-    if(main->num == 1)
-        k++;
-    if(!ft_strcmp(c, "fork"))
-        printf("%d -  philo n.%d has taken a fork\n", timestamp, k);
-    else if(!ft_strcmp(c, "eat"))
-        printf("%d -  philo n.%d is eating\n", timestamp, k);
-    else if(!ft_strcmp(c, "sleep"))
-        printf("%d -  philo n.%d is sleeping\n", timestamp, k);
-    else if(!ft_strcmp(c, "think"))
-        printf("%d -  philo n.%d is thinking\n", timestamp, k);
-    else if(!ft_strcmp(c, "die"))
-        printf("%d -  philo n.%d died\n", timestamp, k);
-    pthread_mutex_unlock(&main->print);
+	if (main->stop)
+		return ;
+	pthread_mutex_lock(&main->print);
+	if (main->num == 1)
+		k++;
+	if (!ft_strcmp(c, "fork"))
+		printf("%d -  philo n.%d has taken a fork\n", timestamp, k);
+	else if (!ft_strcmp(c, "eat"))
+		printf("%d -  philo n.%d is eating\n", timestamp, k);
+	else if (!ft_strcmp(c, "sleep"))
+		printf("%d -  philo n.%d is sleeping\n", timestamp, k);
+	else if (!ft_strcmp(c, "think"))
+		printf("%d -  philo n.%d is thinking\n", timestamp, k);
+	else if (!ft_strcmp(c, "die"))
+		printf("%d -  philo n.%d died\n", timestamp, k);
+	pthread_mutex_unlock(&main->print);
 }
 
-int ctm_atoi(t_main *main, char *str)
+int	ctm_atoi(t_main *main, char *str)
 {
-    size_t res;
+	size_t	res;
 
-    main->i = 0;
-    res = 0;
-    while (str[main->i])
-    {
-        if(main->i == 0 && (str[main->i] == '-'))
-            return (err(1));
-        else if (main->i == 0 && (str[main->i] == '+'))
-            main->i++;
-        if (str[main->i] < '0' || str[main->i] > '9')
-            return (err(2));
-        main->i++;
-    }
-    main->i = 0;
-    while(str[main->i])
-    {
-        res = res * 10 + str[main->i] - '0';
-        main->i++;
-    }
-    return (res);
+	main->i = 0;
+	res = 0;
+	while (str[main->i])
+	{
+		if (main->i == 0 && (str[main->i] == '-'))
+			return (err(1));
+		else if (main->i == 0 && (str[main->i] == '+'))
+			main->i++;
+		if (str[main->i] < '0' || str[main->i] > '9')
+			return (err(2));
+		main->i++;
+	}
+	main->i = 0;
+	while (str[main->i])
+	{
+		res = res * 10 + str[main->i] - '0';
+		main->i++;
+	}
+	return (res);
 }
 
-int get_time(t_main *main, bool firstime)
+int	get_time(t_main *main, bool firstime)
 {
-    struct timeval t;
+	struct timeval	t;
 
-    gettimeofday(&t, NULL);
-    if(firstime == true )
-        return(main->first_timestamp = t.tv_sec * 1000 + t.tv_usec / 1000);
-    else
-        return(t.tv_sec * 1000 + t.tv_usec / 1000 - main->first_timestamp);
+	gettimeofday(&t, NULL);
+	if (firstime == true)
+		return (main->first_timestamp = t.tv_sec * 1000 + t.tv_usec / 1000);
+	else
+		return (t.tv_sec * 1000 + t.tv_usec / 1000 - main->first_timestamp);
 }
