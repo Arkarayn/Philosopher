@@ -78,17 +78,7 @@ void	death_check(t_main *main)
 		i = 0;
 		while (i < main->num && !main->stop)
 		{
-			usleep(10000);
-			pthread_mutex_lock(&main->meal);
-			if (main->phils[i].last_meal != 0 && get_time(main, false) - \
-				main->phils[i].last_meal > main->tdie)
-			{
-				pthread_mutex_lock(&main->print);
-				printf("%d -  philo n.%d died\n", get_time(main, false), \
-					main->phils[i].id);
-				main->stop = true;
-			}
-			pthread_mutex_unlock(&main->meal);
+			death_by_star(main, i);
 			i++;
 		}
 		if (main->stop)

@@ -77,3 +77,18 @@ int	get_time(t_main *main, bool firstime)
 	else
 		return (t.tv_sec * 1000 + t.tv_usec / 1000 - main->first_timestamp);
 }
+
+void	death_by_star(t_main *main, int i)
+{
+	usleep(3000);
+	pthread_mutex_lock(&main->meal);
+	if (main->phils[i].last_meal != 0 && get_time(main, false) - \
+		main->phils[i].last_meal > main->tdie)
+	{
+		pthread_mutex_lock(&main->print);
+		printf("%d -  philo n.%d died\n", get_time(main, false), \
+			main->phils[i].id);
+		main->stop = true;
+	}
+	pthread_mutex_unlock(&main->meal);
+}

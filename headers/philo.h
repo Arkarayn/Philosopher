@@ -63,5 +63,6 @@ int		init(t_main *main, char **argv);
 int		init_philo(t_main *main);
 /* Philo */
 int		philo(t_main *main);
+void	death_by_star(t_main *main, int i);
 
 #endif
