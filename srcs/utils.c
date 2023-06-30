@@ -24,8 +24,13 @@ int	ft_strcmp(char *s1, char *s2)
 
 void	print(t_main *main, int timestamp, int k, char *c)
 {
+	pthread_mutex_lock(&main->stop_mtx);
 	if (main->stop)
+	{
+		pthread_mutex_unlock(&main->stop_mtx);
 		return ;
+	}
+	pthread_mutex_unlock(&main->stop_mtx);
 	pthread_mutex_lock(&main->print);
 	if (main->num == 1)
 		k++;
@@ -80,15 +85,27 @@ int	get_time(t_main *main, bool firstime)
 
 void	death_by_star(t_main *main, int i)
 {
-	usleep(3000);
-	pthread_mutex_lock(&main->meal);
-	if (main->phils[i].last_meal != 0 && get_time(main, false) - \
-		main->phils[i].last_meal > main->tdie)
+	while (i < main->num)
 	{
-		pthread_mutex_lock(&main->print);
-		printf("%d -  philo n.%d died\n", get_time(main, false), \
-			main->phils[i].id);
-		main->stop = true;
+		pthread_mutex_lock(&main->stop_mtx);
+		if (main->stop)
+		{
+			pthread_mutex_unlock(&main->stop_mtx);
+			break ;
+		}
+		pthread_mutex_unlock(&main->stop_mtx);
+		usleep(3000);
+		pthread_mutex_lock(&main->meal);
+		if (main->phils[i].last_meal != 0 && get_time(main, false) - \
+			main->phils[i].last_meal > main->tdie)
+		{
+			pthread_mutex_lock(&main->print);
+			printf("%d -  philo n.%d died\n", get_time(main, false), \
+				main->phils[i].id);
+			main->stop = true;
+			pthread_mutex_unlock(&main->print);
+		}
+		pthread_mutex_unlock(&main->meal);
+		i++;
 	}
-	pthread_mutex_unlock(&main->meal);
 }
