@@ -12,6 +12,42 @@
 
 #include "../headers/philo.h"
 
+void	fork_init(t_phils *philo)
+{
+	if (philo->id - 1 == philo->main->num)
+	{
+		philo->left_fork = &philo->main->forks[0];
+		philo->right_fork = &philo->main->forks[philo->main->num - 1];
+	}
+	else
+	{
+		philo->left_fork = &philo->main->forks[philo->id - 1];
+		philo->right_fork = &philo->main->forks[philo->id];
+	}
+}
+
+
+int	mutex_init(t_main *main)
+{
+	int	i;
+
+	if (pthread_mutex_init(&(main->meal), NULL))
+		return (1);
+	if (pthread_mutex_init(&(main->print), NULL))
+		return (1);
+	if (pthread_mutex_init(&(main->mtx), NULL))
+		return (1);
+	if (pthread_mutex_init(&(main->stop_mtx), NULL))
+		return (1);
+	if (pthread_mutex_init(&(main->mtx), NULL))
+		return (1);
+	i = -1;
+	while (++i < main->num)
+		if (pthread_mutex_init(&(main->forks[i]), NULL))
+			return (1);
+	return (0);
+}
+
 int	init_philo(t_main *main)
 {
 	main->i = main->num - 1;
@@ -21,18 +57,12 @@ int	init_philo(t_main *main)
 		main->phils[main->i].meals = 0;
 		main->phils[main->i].ate = false;
 		main->phils[main->i].last_meal = 0;
-		if (main->i == main->num - 1)
-			main->phils[main->i].left_fork_id = 0;
-		else
-			main->phils[main->i].left_fork_id = main->i + 1;
-		main->phils[main->i].right_fork_id = main->i;
-		if (pthread_mutex_init(&(main->meal), NULL))
-			return (1);
-		if (pthread_mutex_init(&(main->print), NULL))
-			return (1);
-		if (pthread_mutex_init(&main->forks[main->i], NULL))
-			return (-1);
+		main->phils[main->i].print = &main->print;
+		main->phils[main->i].meal = &main->meal;
+		main->phils[main->i].stop_mtx = &main->stop_mtx;
+		main->phils[main->i].mtx = &main->mtx;
 		main->phils[main->i].main = main;
+		fork_init(&main->phils[main->i]);
 		main->i--;
 	}
 	return (0);
@@ -61,6 +91,8 @@ int	init(t_main *main, char **argv)
 	}
 	else
 		main->mtodo = -1;
+	if (mutex_init(main))
+		return (err(3));
 	if (init_philo(main) == -1)
 		return (err(5));
 	return (0);
