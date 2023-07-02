@@ -19,6 +19,7 @@ int	main(int argc, char **argv)
 	if (argc != 5 && argc != 6)
 		return (err(4));
 	main = malloc(sizeof(t_main));
+	memset(main, 0, sizeof(t_main));
 	if (!main)
 		return (err(3));
 	if (init(main, argv) != 0)

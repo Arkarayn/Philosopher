@@ -47,6 +47,9 @@ int	init(t_main *main, char **argv)
 	main->tdie = ctm_atoi(main, argv[2]);
 	main->teat = ctm_atoi(main, argv[3]);
 	main->tsleep = ctm_atoi(main, argv[4]);
+	main->i = 0;
+	main->all_ate = 0;
+	main->first_timestamp = 0;
 	main->stop = false;
 	if (main->num < 1 || main->tdie < 0 || main->teat < 0 || main->tsleep < 0)
 		return (err(2));
