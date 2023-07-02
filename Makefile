@@ -29,10 +29,13 @@ BARS := "▰▱▱▱▱▱▱▱▱▱▱ 1%" "▰▰▱▱▱▱▱▱▱▱�
 all: $(NAME)
 	@for bar in $(BARS); do \
 		clear; \
-        echo "\n\n\t\033[1;31m$$bar\033[0m"; \
-        sleep 0.1; \
+        echo "\n\n\n\t\t\t\033[1;31m$$bar\033[0m"; \
+        sleep 0.08; \
     done
 	clear
+	@echo "\n\n\t\t❈────────•✦•❅•✦•───────❈";
+	@echo "\t\t\033[1;3;5;32m    LOADING COMPLETED\033[0m";
+	@echo "\t\t❈────────•✦•❅•✦•───────❈\n\n";
 
 $(NAME): $(SRCS) $(O_SRCS)
 	clear
