@@ -19,8 +19,8 @@ SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 O_SRCS = $(addprefix $(OBJ_DIR), $(SRCS_FILES:.c=.o))
 
 $(OBJ_DIR)%.o : $(SRCS_DIR)%.c $(HEADER_1)
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 BARS := "▰▱▱▱▱▱▱▱▱▱▱ 1%" "▰▰▱▱▱▱▱▱▱▱▱ 17%" "▰▰▰▱▱▱▱▱▱▱▱ 23%" "▰▰▰▰▱▱▱▱▱▱▱ 38%" "▰▰▰▰▰▱▱▱▱▱▱ 42%" \
     	"▰▰▰▰▰▰▱▱▱▱▱ 51%" "▰▰▰▰▰▰▰▱▱▱▱ 65%" "▰▰▰▰▰▰▰▰▱▱▱ 79%" "▰▰▰▰▰▰▰▰▰▱▱ 87%" "▰▰▰▰▰▰▰▰▰▰ 94%" \
@@ -34,10 +34,9 @@ all: $(NAME)
     done
 	clear
 
-
 $(NAME): $(SRCS) $(O_SRCS)
 	clear
-	$(CC) $(CFLAGS) $(O_SRCS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(O_SRCS) -o $(NAME)
 	clear
 
 clean:
