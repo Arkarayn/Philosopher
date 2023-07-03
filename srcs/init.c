@@ -12,7 +12,7 @@
 
 #include "../headers/philo.h"
 
-void	fork_init(t_phils *philo)
+void	init_fork(t_phils *philo)
 {
 	if (philo->id - 1 == philo->main->num)
 	{
@@ -25,7 +25,6 @@ void	fork_init(t_phils *philo)
 		philo->right_fork = &philo->main->forks[philo->id];
 	}
 }
-
 
 int	mutex_init(t_main *main)
 {
@@ -62,13 +61,13 @@ int	init_philo(t_main *main)
 		main->phils[main->i].stop_mtx = &main->stop_mtx;
 		main->phils[main->i].mtx = &main->mtx;
 		main->phils[main->i].main = main;
-		fork_init(&main->phils[main->i]);
+		init_fork(&main->phils[main->i]);
 		main->i--;
 	}
 	return (0);
 }
 
-int	init(t_main *main, char **argv)
+void	init_struct(t_main *main, char **argv)
 {
 	main->num = ctm_atoi(main, argv[1]);
 	main->phils = (t_phils *)malloc(sizeof(t_phils) * main->num);
@@ -81,6 +80,11 @@ int	init(t_main *main, char **argv)
 	main->all_ate = 0;
 	main->first_timestamp = 0;
 	main->stop = false;
+}
+
+int	init(t_main *main, char **argv)
+{
+	init_struct(main, argv);
 	if (main->num < 1 || main->tdie < 0 || main->teat < 0 || main->tsleep < 0)
 		return (err(2));
 	if (argv[5])
