@@ -14,7 +14,7 @@
 
 void	init_fork(t_phils *philo)
 {
-	if (philo->id - 1 == philo->main->num)
+	if (philo->id == philo->main->num)
 	{
 		philo->left_fork = &philo->main->forks[0];
 		philo->right_fork = &philo->main->forks[philo->main->num - 1];
@@ -40,6 +40,8 @@ int	mutex_init(t_main *main)
 		return (1);
 	if (pthread_mutex_init(&(main->mtx), NULL))
 		return (1);
+	if (pthread_mutex_init(&(main->ate_mtx), NULL))
+		return (1);
 	i = -1;
 	while (++i < main->num)
 		if (pthread_mutex_init(&(main->forks[i]), NULL))
@@ -60,6 +62,7 @@ int	init_philo(t_main *main)
 		main->phils[main->i].meal = &main->meal;
 		main->phils[main->i].stop_mtx = &main->stop_mtx;
 		main->phils[main->i].mtx = &main->mtx;
+		main->phils[main->i].ate_mtx = &main->ate_mtx;
 		main->phils[main->i].main = main;
 		init_fork(&main->phils[main->i]);
 		main->i--;

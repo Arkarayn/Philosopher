@@ -12,6 +12,13 @@
 
 #include "../headers/philo.h"
 
+void	sleep_and_think(t_phils *philo)
+{
+	print(philo->main, get_time(philo->main, false), philo->id, "sleep");
+	usleep(philo->main->tsleep * 1000);
+	print(philo->main, get_time(philo->main, false), philo->id, "think");
+}
+
 int	main(int argc, char **argv)
 {
 	t_main	*main;

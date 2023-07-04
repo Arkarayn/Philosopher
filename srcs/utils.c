@@ -24,26 +24,27 @@ int	ft_strcmp(char *s1, char *s2)
 
 void	print(t_main *main, int timestamp, int k, char *c)
 {
+	pthread_mutex_lock(&main->print);
 	pthread_mutex_lock(&main->stop_mtx);
 	if (main->stop)
 	{
 		pthread_mutex_unlock(&main->stop_mtx);
+		pthread_mutex_unlock(&main->print);
 		return ;
 	}
 	pthread_mutex_unlock(&main->stop_mtx);
-	pthread_mutex_lock(&main->print);
 	if (main->num == 1)
 		k++;
 	if (!ft_strcmp(c, "fork"))
-		printf("%d -  philo n.%d has taken a fork\n", timestamp, k);
+		printf(GREEN"%d -  philo n.%d has taken a fork\n"RESET, timestamp, k);
 	else if (!ft_strcmp(c, "eat"))
-		printf("%d -  philo n.%d is eating\n", timestamp, k);
+		printf(RED"%d -  philo n.%d is eating\n"RESET, timestamp, k);
 	else if (!ft_strcmp(c, "sleep"))
-		printf("%d -  philo n.%d is sleeping\n", timestamp, k);
+		printf(MAGENTA"%d -  philo n.%d is sleeping\n"RESET, timestamp, k);
 	else if (!ft_strcmp(c, "think"))
-		printf("%d -  philo n.%d is thinking\n", timestamp, k);
+		printf(MAGENTA"%d -  philo n.%d is thinking\n"RESET, timestamp, k);
 	else if (!ft_strcmp(c, "die"))
-		printf("%d -  philo n.%d died\n", timestamp, k);
+		printf(YELLOW"%d -  philo n.%d died\n"RESET, timestamp, k);
 	pthread_mutex_unlock(&main->print);
 }
 

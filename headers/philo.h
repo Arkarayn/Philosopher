@@ -23,6 +23,14 @@
 # include <string.h>
 # include <pthread.h>
 
+# define RED		"\033[31m"
+# define GREEN		"\033[32m"
+# define YELLOW		"\033[33m"
+# define BLUE		"\033[34m"
+# define MAGENTA	"\033[35m"
+# define CYAN		"\033[36m"
+# define RESET		"\033[0m"
+
 struct	s_main;
 
 typedef struct s_phils
@@ -37,6 +45,7 @@ typedef struct s_phils
 	pthread_mutex_t	*print;
 	pthread_mutex_t	*stop_mtx;
 	pthread_mutex_t	*mtx;
+	pthread_mutex_t	*ate_mtx;
 	pthread_t		thread_id;
 	struct s_main	*main;
 }	t_phils;
@@ -55,6 +64,7 @@ typedef struct s_main
 	long long		first_timestamp;
 	pthread_mutex_t	stop_mtx;
 	pthread_mutex_t	mtx;
+	pthread_mutex_t	ate_mtx;
 	pthread_mutex_t	meal;
 	pthread_mutex_t	print;
 	pthread_mutex_t	*forks;
@@ -71,6 +81,7 @@ int		init(t_main *main, char **argv);
 int		init_philo(t_main *main);
 /* Philo */
 int		philo(t_main *main);
+void	sleep_and_think(t_phils *philo);
 void	death_by_star(t_main *main, int i);
 
 #endif

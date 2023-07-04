@@ -25,7 +25,9 @@ void	philo_eat(t_phils *philo)
 	pthread_mutex_unlock(philo->mtx);
 	pthread_mutex_unlock(philo->meal);
 	usleep(philo->main->teat * 1000);
+	pthread_mutex_lock(philo->mtx);
 	philo->meals++;
+	pthread_mutex_unlock(philo->mtx);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
 }
@@ -47,11 +49,14 @@ void	*philo_routine(void *void_phils)
 			break ;
 		}
 		pthread_mutex_unlock(philo->stop_mtx);
+		pthread_mutex_lock(philo->ate_mtx);
 		if (philo->main->all_ate)
+		{
+			pthread_mutex_unlock(philo->ate_mtx);
 			break ;
-		print(philo->main, get_time(philo->main, false), philo->id, "sleep");
-		usleep(philo->main->tsleep * 1000);
-		print(philo->main, get_time(philo->main, false), philo->id, "think");
+		}
+		pthread_mutex_unlock(philo->ate_mtx);
+		sleep_and_think(philo);
 	}
 	return (NULL);
 }
@@ -93,11 +98,15 @@ void	death_check(t_main *main)
 		}
 		pthread_mutex_unlock(&main->stop_mtx);
 		i = 0;
+		pthread_mutex_lock(&main->mtx);
 		while (i < main->num && main->mtodo != -1 && main->phils[i].meals \
 			>= main->mtodo)
 			i++;
+		pthread_mutex_unlock(&main->mtx);
+		pthread_mutex_lock(&main->ate_mtx);
 		if (i == main->num)
 			main->all_ate = true;
+		pthread_mutex_unlock(&main->ate_mtx);
 	}
 }
 
