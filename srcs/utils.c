@@ -95,7 +95,7 @@ void	death_by_star(t_main *main, int i)
 			break ;
 		}
 		pthread_mutex_unlock(&main->stop_mtx);
-		usleep(3000);
+		usleep(8000);
 		pthread_mutex_lock(&main->meal);
 		if (main->phils[i].last_meal != 0 && get_time(main, false) - \
 			main->phils[i].last_meal > main->tdie)
